@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Auction System - Home</title>
+    <link rel="stylesheet" href="css/home-style.css">
+    <link rel="icon" type="image/x-icon" href="images/favicon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" xintegrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+</head>
+<body>
+<div class="app-container">
+    <header class="app-header">
+        <button id="leftSidebarToggle" class="sidebar-toggle-btn left-toggle" aria-label="Toggle Left Sidebar">
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="header-title">Online Auction System</div>
+        <div class="header-user-info">
+            <span id="userInfoDisplay">Welcome, Guest!</span>
+            <button id="logoutBtn" style="display: none;"><i class="fas fa-sign-out-alt"></i> Logout</button>
+        </div>
+    </header>
+
+    <aside class="sidebar left-sidebar" id="leftSidebar">
+        <div class="user-profile-summary">
+            <img src="images/default-avatar.png" alt="User Avatar" id="userAvatar" class="user-avatar-small">
+            <div class="user-details-small">
+                <strong id="sidebarUserName">User Name</strong><br>
+                <span id="sidebarUserEmail" class="email-text">user@example.com</span>
+            </div>
+        </div>
+        <nav class="sidebar-nav">
+            <ul>
+                <li><a href="#" data-page="viewAllAuctions" class="active-nav-link"><i class="fas fa-gavel nav-icon"></i> <span class="nav-text">View All Auctions</span></a></li>
+                <li><a href="#" data-page="addAuctionItem"><i class="fas fa-plus-circle nav-icon"></i> <span class="nav-text">Add Auction Item</span></a></li>
+                <li><a href="#" data-page="myWonItems"><i class="fas fa-trophy nav-icon"></i> <span class="nav-text">My Won Items</span></a></li>
+                <li><a href="#" data-page="allFinishedBids"><i class="fas fa-flag-checkered nav-icon"></i> <span class="nav-text">All Finished Bids</span></a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="main-content-area" id="mainContentArea">
+        <section id="viewAllAuctionsPage" class="page-content active">
+            <div class="page-header">
+                <h2>All Active Auctions</h2>
+                <button id="refreshActiveAuctionsBtn" class="action-button"><i class="fas fa-sync-alt"></i> Refresh Auctions</button>
+            </div>
+            <div id="activeAuctionListContainer" class="auction-container">
+                <p class="loading-text">Loading active auctions...</p>
+            </div>
+        </section>
+
+        <section id="addAuctionItemPage" class="page-content" style="display:none;">
+            <div class="page-header">
+                <h2>Add New Auction Item</h2>
+            </div>
+            <form id="formAddAuction" class="modern-form" enctype="multipart/form-data">
+                <div>
+                    <label for="itemName">Item Name:</label>
+                    <input type="text" id="itemName" name="itemName" required placeholder="e.g., Vintage Watch">
+                </div>
+                <div>
+                    <label for="itemDescription">Description:</label>
+                    <textarea id="itemDescription" name="itemDescription" rows="4" required placeholder="Detailed description of the item..."></textarea>
+                </div>
+                <div>
+                    <label for="itemPicture">Select Picture:</label>
+                    <input type="file" id="itemPicture" name="itemPicture" accept="image/*" class="file-input-styled">
+                    <img id="imagePreview" src="#" alt="Image Preview" style="max-width: 200px; max-height: 200px; margin-top: 10px; display: none; border-radius: var(--border-radius); border: 1px solid var(--border-color);"/>
+                </div>
+                <div>
+                    <label for="startingPrice">Starting Price ($):</label>
+                    <input type="number" id="startingPrice" name="startingPrice" min="0.01" step="0.01" required placeholder="e.g., 50.00">
+                </div>
+                <div>
+                    <label for="auctionDuration">Duration (minutes):</label>
+                    <input type="number" id="auctionDuration" name="durationMinutes" min="1" required placeholder="e.g., 60">
+                </div>
+                <button type="submit" class="action-button primary-button"><i class="fas fa-plus"></i> Create Auction</button>
+            </form>
+        </section>
+
+        <section id="myWonItemsPage" class="page-content" style="display:none;">
+            <div class="page-header">
+                <h2>My Won Auction Items</h2>
+            </div>
+            <div id="myWonAuctionListContainer" class="auction-container">
+                <p class="loading-text">Loading your won auctions...</p>
+            </div>
+        </section>
+
+        <section id="allFinishedBidsPage" class="page-content" style="display:none;">
+            <div class="page-header">
+                <h2>All Finished Auction Items</h2>
+            </div>
+            <div id="allFinishedAuctionListContainer" class="auction-container">
+                <p class="loading-text">Loading all finished auctions...</p>
+            </div>
+        </section>
+
+        <div id="bidModal" class="modal">
+            <div class="modal-content">
+                <button class="close-button" id="closeBidModal" aria-label="Close modal">&times;</button>
+                <div class="bid-modal-item-details">
+                    <img src="images/placeholder.png" alt="Item image" id="bidModalItemImage" class="bid-modal-image">
+                    <div class="bid-modal-text-details">
+                        <h3 id="bidModalItemName">Item Name</h3>
+                        <p id="bidModalItemDescription">Item description goes here...</p>
+                        <p><strong>Current Bid:</strong> $<span id="bidModalCurrentBid">0.00</span> (By: <span id="bidModalCurrentBidder">N/A</span>)</p>
+                        <p><strong>Auction Ends:</strong> <span id="bidModalEndTime"></span></p>
+                    </div>
+                </div>
+                <hr class="modal-hr">
+                <form id="formPlaceBid" class="modern-form">
+                    <input type="hidden" id="bidModalItemId" name="itemId">
+                    <div>
+                        <label for="bidAmount">Your Bid Amount ($):</label>
+                        <input type="number" id="bidAmount" name="amount" min="0.01" step="0.01" required placeholder="Enter your bid">
+                    </div>
+                    <div class="modal-actions">
+                        <button type="submit" class="action-button primary-button"><i class="fas fa-dollar-sign"></i> Submit Bid</button>
+                        <button type="button" id="cancelBidButton" class="action-button secondary-button">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <aside class="sidebar right-sidebar" id="rightSidebar">
+        <div class="sidebar-content">
+            <h3><i class="fas fa-history"></i> Recently Finished</h3>
+            <div id="recentlyFinishedItemsList" class="sidebar-list">
+                <p class="empty-list-message"><em>No recently finished items.</em></p>
+            </div>
+            <hr>
+            <h3><i class="fas fa-crown"></i> Top Winners</h3>
+            <div id="bidWinnersList" class="sidebar-list">
+                <p class="empty-list-message"><em>Top winners will be shown here.</em></p>
+            </div>
+        </div>
+    </aside>
+    <button id="rightSidebarToggle" class="sidebar-toggle-btn right-toggle" aria-label="Toggle Right Sidebar">
+        <i class="fas fa-chevron-left"></i>
+    </button>
+
+    <footer class="app-footer">
+        <p>&copy; 2025 Online Auction System - Developed by Pasan Wijekoon</p>
+    </footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+<script src="js/auth-index.js"></script>
+<script src="js/index-app.js"></script>
+</body>
+</html>

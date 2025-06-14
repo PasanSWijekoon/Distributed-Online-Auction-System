@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - Online Auction</title>
+    <link rel="stylesheet" href="css/home-style.css">
+    <link rel="icon" type="image/x-icon" href="images/favicon.png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+</head>
+<body>
+<div class="auth-page-container">
+    <div class="auth-card">
+        <header class="auth-header">
+            <h1>Auction System Login</h1>
+        </header>
+        <main>
+            <section id="login-section">
+                <form id="loginForm" class="modern-form auth-form">
+                    <div>
+                        <label for="loginUserId">User ID:</label>
+                        <input type="text" id="loginUserId" name="userId" required placeholder="Enter your User ID">
+                    </div>
+                    <div>
+                        <label for="loginPassword">Password:</label>
+                        <input type="password" id="loginPassword" name="password" required placeholder="Enter your password">
+                    </div>
+                    <button type="submit" class="action-button primary-button full-width-button cntxt">Login</button>
+                </form>
+                <p class="auth-switch-link">New user? <a href="register.html">Register here</a></p>
+            </section>
+        </main>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+<script src="js/auth.js"></script>
+</body>
+</html>
